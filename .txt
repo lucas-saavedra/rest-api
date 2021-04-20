@@ -1,0 +1,16 @@
+anio:
+titulo:
+numero: 
+llamada:
+tipo_licitacion: publica/privada
+decreto:
+entrega_sobres:
+org_financiero:
+fecha_apertura:  
+presup_oficial:
+precio_pliego: 
+bases_condiciones:
+fecha_adj:
+norma_adj:
+archivo_id:
+estado: vigente/adjudicada/en_evaluacion

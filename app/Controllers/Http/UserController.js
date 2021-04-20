@@ -22,7 +22,9 @@ class UserController {
   async index({ request }) {
     return await User.all()
   }
+
  
+
 }
  
 module.exports = UserController

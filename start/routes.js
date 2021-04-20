@@ -18,7 +18,7 @@
 'use strict'
  
 const Route = use('Route')
- 
+const Helpers = use('Helpers')
 Route.group(() => {
 
   Route.post('users/', 'UserController.store');
@@ -34,4 +34,14 @@ Route.group(() => {
   Route.get('proyectos/:id/tareas', 'TareaController.index').middleware('auth');
   Route.patch('tareas/:id', 'TareaController.update').middleware('auth');
   Route.delete('tareas/:id', 'TareaController.destroy').middleware('auth');
+
+  Route.get('licitaciones/', 'LicitacionController.index').middleware('guest');
+  
+  Route.get('licitaciones/:id', 'LicitacionController.show').middleware('guest');
+  Route.post('licitaciones/', 'LicitacionController.create');
+
+  Route.get('concursos/', 'ConcursoController.index');
+  Route.post('/upload', 'ProyectoController.upload').middleware('auth');
+
+
 }).prefix('api/v1/');
