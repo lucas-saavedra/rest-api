@@ -1,5 +1,6 @@
 'use strict'
 const Licitacion = use('App/Models/Licitacion')
+const Database = use('Database')
 class LicitacionController {
 
   async show ({ params, request}) {
@@ -7,6 +8,13 @@ class LicitacionController {
     const licitacion = await Licitacion.find(id);
     return licitacion;
 
+  } async estado ({params}) {
+    const {estado} = params;
+    return await Database.from('licitacions').where(function () {
+      this
+        .where('licitacions.estado', estado)
+        
+    })
   }
 
   async index({

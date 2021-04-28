@@ -18,7 +18,7 @@
 */
 
 const { Ignitor } = require('@adonisjs/ignitor')
-
+global.__basedir = __dirname;
 new Ignitor(require('@adonisjs/fold'))
   .appRoot(__dirname)
   .fireHttpServer()

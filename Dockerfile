@@ -16,6 +16,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 3333
-
-
+# docker run -dp 3333:3333 -v web-volumen:/app rest-api
 CMD [ "node", "server.js" ]

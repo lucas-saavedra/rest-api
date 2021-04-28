@@ -11,7 +11,7 @@ class ConcursoController {
     }) {
       const {
           anio,
-          licitacion_n,
+          concurso_n,
           titulo,
           llamada,
           tipo_licitacion,

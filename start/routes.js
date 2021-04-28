@@ -37,11 +37,13 @@ Route.group(() => {
 
   Route.get('licitaciones/', 'LicitacionController.index').middleware('guest');
   
-  Route.get('licitaciones/:id', 'LicitacionController.show').middleware('guest');
+  Route.get('licitaciones/:estado', 'LicitacionController.estado').middleware('guest');
   Route.post('licitaciones/', 'LicitacionController.create');
 
   Route.get('concursos/', 'ConcursoController.index');
   Route.post('/upload', 'ProyectoController.upload').middleware('auth');
+  //Route.get('/upload/:name', 'ProyectoController.down').middleware('guest');
+  Route.get('/upload', 'ProyectoController.get_files').middleware('guest');
 
 
 }).prefix('api/v1/');

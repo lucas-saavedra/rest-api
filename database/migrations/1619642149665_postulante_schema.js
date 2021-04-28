@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class AdjudicatorioSchema extends Schema {
+class PostulanteSchema extends Schema {
   up () {
-    this.create('adjudicatorios', (table) => {
+    this.create('postulantes', (table) => {
       table.increments()
       table.enu('tipo', ['licitacion','concurso']).notNullable()
       table.string('inscripcion_id', 100)
@@ -14,14 +14,13 @@ class AdjudicatorioSchema extends Schema {
       table.string('cuit', 50)
       table.string('cel', 50)
       table.text('observaciones', 50)
-      table.string('importe', 255).notNullable()
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('adjudicatorios')
+    this.drop('postulantes')
   }
 }
 
-module.exports = AdjudicatorioSchema
+module.exports = PostulanteSchema

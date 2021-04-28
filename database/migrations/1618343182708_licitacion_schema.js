@@ -13,7 +13,7 @@ class LicitacionSchema extends Schema {
       table.string('llamada', 50).notNullable()
       table.enu('tipo', ['publica','privada']).notNullable()
       table.string('decreto', 255).notNullable()
-      table.text('entrega_sobres').notNullable()
+      table.text('entrega_sobres')
       table.string('org_financiero', 255)
       table.text('fecha_apertura').notNullable()
       table.string('presup_oficial', 255).notNullable()

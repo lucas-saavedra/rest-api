@@ -2,6 +2,9 @@
 const Proyecto = use('App/Models/Proyecto')
 const AuthService = use('App/services/AuthService')
 const Helpers = use('Helpers')
+const fs = require("fs");
+
+const readdir = Helpers.promisify(fs.readdir)
 class ProyectoController {
   async index({
     auth
@@ -9,6 +12,69 @@ class ProyectoController {
     const user = await auth.getUser();
     return await user.proyectos().fetch();
   }
+
+  async get_files ({response}) {
+    const directoryPath = __basedir + "/archivos/licit";
+    response.implicitEnd = false
+    fs.readdir(directoryPath, function (err, files) {
+      if (err) {
+        response.status(500).send({
+          message: "Unable to scan files!",
+        });
+      }
+  
+      let fileInfos = [];
+  
+      files.forEach((file) => {
+        fileInfos.push({
+          name: file,
+          url: 'http://127.0.0.1:3333/'+ file,
+        });
+      });
+  
+      response.status(200).send(fileInfos);
+    });
+  };
+ 
+  async get_filess({
+    response
+  }) {
+    const directoryPath = __basedir + "/archivos/licit/";
+     fs.readdir(directoryPath, function (err, files) {
+      if (err) {
+        response.status(500).send({
+          message: "Unable to scan files!",
+        });
+      }
+
+      let fileInfos = [];
+
+      files.forEach((file) => {
+        fileInfos.push({
+          name: file,
+          url: 'http://127.0.0.1:3333/api/v1/upload' + file,
+        });
+      });
+      console.log(fileInfos)
+      response.status(500).send(fileInfos);
+      
+    });
+    
+  }
+
+  async down({
+    response,params
+  }) {
+    const {
+      name
+    } = params;
+    console.log(name)
+    return await response.attachment(
+      Helpers.appRoot('archivos/licit/'+ name)
+      
+      )
+  }
+
   async create({
     auth,
     request
@@ -28,14 +94,22 @@ class ProyectoController {
   async upload({
     auth,
     request,
-    params
+    response
   }) {
     const user = await auth.getUser();
-    const photo = request.file('file')
-    await photo.move(Helpers.tmpPath('photos'), {
-      name:  user.email + `.jpg` ,
+    const profilePic = request.file('file', {
+      types: ['zip'],
+      size: '2mb'
+    })
+    await profilePic.move(Helpers.appRoot('archivos/licit'), {
+      name: user.email + `.zip`,
       overwrite: true
     })
+    if (!profilePic.moved()) {
+      return profilePic.error()
+    }
+    return 'File moved'
+
   }
 
 
