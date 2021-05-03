@@ -26,24 +26,36 @@ Route.group(() => {
   Route.get('users/', 'UserController.index');
   //Rutas de los Proyectos
   Route.get('proyectos', 'ProyectoController.index').middleware('auth');
+  Route.get('proyectos', 'ProyectoController.index').middleware('auth');
   Route.post('proyectos', 'ProyectoController.create').middleware('auth');
   Route.patch('proyectos/:id', 'ProyectoController.update').middleware('auth');
   Route.delete('proyectos/:id', 'ProyectoController.destroy').middleware('auth');
   //Rutas de las tareas
+
   Route.post('proyectos/:id/tareas', 'TareaController.create').middleware('auth');
   Route.get('proyectos/:id/tareas', 'TareaController.index').middleware('auth');
   Route.patch('tareas/:id', 'TareaController.update').middleware('auth');
   Route.delete('tareas/:id', 'TareaController.destroy').middleware('auth');
 
+  // Get icitaciones
   Route.get('licitaciones/', 'LicitacionController.index').middleware('guest');
-  
   Route.get('licitaciones/:estado', 'LicitacionController.estado').middleware('guest');
+  Route.get('licitaciones/id/:id', 'LicitacionController.show').middleware('guest');
+//Get concursos
+  Route.get('concursos/', 'ConcursoController.index').middleware('guest');
+  Route.get('concursos/:estado', 'ConcursoController.estado').middleware('guest');
+  Route.get('concursos/id/:id', 'ConcursoController.show').middleware('guest');
+
+
+
   Route.post('licitaciones/', 'LicitacionController.create');
 
-  Route.get('concursos/', 'ConcursoController.index');
-  Route.post('/upload', 'ProyectoController.upload').middleware('auth');
-  //Route.get('/upload/:name', 'ProyectoController.down').middleware('guest');
-  Route.get('/upload', 'ProyectoController.get_files').middleware('guest');
+  
+  Route.post('upload', 'PhotoController.upload').middleware('guest');
+
+  Route.get('download/:name', 'ProyectoController.down').middleware('guest');
+  Route.get('upload', 'ProyectoController.get_files').middleware('guest');
+  Route.post('postulante', 'PostulanteController.create').middleware('guest');
 
 
 }).prefix('api/v1/');

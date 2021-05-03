@@ -10,7 +10,7 @@ class AdjudicatorioSchema extends Schema {
       table.enu('tipo', ['licitacion','concurso']).notNullable()
       table.string('inscripcion_id', 100)
       table.string('nombre_apellido', 255).notNullable()
-      table.string('email', 254).notNullable().unique()
+      table.string('email', 254).notNullable()
       table.string('cuit', 50)
       table.string('cel', 50)
       table.text('observaciones', 50)

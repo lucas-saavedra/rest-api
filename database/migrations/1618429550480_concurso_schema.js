@@ -8,6 +8,7 @@ class ConcursoSchema extends Schema {
     this.create('concursos', (table) => {
       table.increments()
       table.date('fecha').notNullable()
+      table.string('anio',4).notNullable()
       table.string('concurso_n', 255).notNullable()
       table.text('titulo').notNullable()
       table.string('decreto_llamado', 255)
@@ -17,8 +18,10 @@ class ConcursoSchema extends Schema {
       table.text('entrega_sobres').notNullable()
       table.text('fecha_apertura_sobres')
       table.string('presup_oficial', 255).notNullable()
-      table.text('bases_condiciones').notNullable()
+      table.text('bases_condiciones')
       table.integer('bases_condiciones_id')
+      table.json('adjudicatorios_importe')
+
       table.timestamps()
      
     })

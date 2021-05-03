@@ -1,11 +1,29 @@
 'use strict'
 const Concurso = use('App/Models/Concurso')
+const Database = use('Database')
 class ConcursoController {
-    async index({
+     async index({
     }) {
-      const concursos = await Concurso.all();
+       const concursos = await Concurso.all(); 
+      //const concursos = await Database.from('adjudicatorios').where({ inscripcion_id: 1 })
       return concursos;
+    } 
+
+    async show ({ params}) {
+      const {id} = params;
+      const concurso = await Concurso.find(id);
+      return concurso;
+  
+    } async estado ({params}) {
+      const {estado} = params;
+      return await Database.from('concursos').where(function () {
+        this
+          .where('concursos.estado', estado)
+          
+      })
     }
+
+
     async create({
       request
     }) {

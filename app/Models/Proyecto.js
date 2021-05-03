@@ -10,6 +10,9 @@ class Proyecto extends Model {
     tareas () {
         return this.hasMany('App/Models/Tarea')
       }
+      postulante () {
+        return this.belongsTo('App/Models/Postulante')
+      }
 }
 
 module.exports = Proyecto

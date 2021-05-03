@@ -1,5 +1,6 @@
 'use strict'
 const Proyecto = use('App/Models/Proyecto')
+const Postulante = use('App/Models/Postulante')
 const AuthService = use('App/services/AuthService')
 const Helpers = use('Helpers')
 const fs = require("fs");
@@ -7,14 +8,48 @@ const fs = require("fs");
 const readdir = Helpers.promisify(fs.readdir)
 class ProyectoController {
   async index({
-    auth
+    params
   }) {
-    const user = await auth.getUser();
-    return await user.proyectos().fetch();
+    const {
+      id
+    } = params;
+    const postulante = await Postulante.find(id)
+    return await postulante.proyectos().fetch();
+  }
+  async create({
+    request
+  }) {
+
+    const {
+      inscripcion_id,
+      tipo,
+      nombre_apellido,
+      email,
+      cuit
+    } = request.all();
+    const postulante = await Postulante.find(id)
+    const proyecto = new Proyecto();
+    proyecto.fill({
+      inscripcion_id,
+      tipo,
+      nombre_apellido,
+      email,
+      cuit
+    });
+    await postulante.proyectos().save(proyecto);
+    return proyecto;
   }
 
-  async get_files ({response}) {
-    const directoryPath = __basedir + "/archivos/licit";
+
+
+
+
+
+
+  async get_files({
+    response
+  }) {
+    const directoryPath = __basedir + "/archivos/licitacion";
     response.implicitEnd = false
     fs.readdir(directoryPath, function (err, files) {
       if (err) {
@@ -22,24 +57,24 @@ class ProyectoController {
           message: "Unable to scan files!",
         });
       }
-  
+
       let fileInfos = [];
-  
+
       files.forEach((file) => {
         fileInfos.push({
           name: file,
-          url: 'http://127.0.0.1:3333/'+ file,
+          url: 'http://localhost:3333/api/v1/download/' + file,
         });
       });
-  
+
       response.status(200).send(fileInfos);
     });
   };
- 
-  async get_filess({
+
+  /* async get_filess({
     response
   }) {
-    const directoryPath = __basedir + "/archivos/licit/";
+    const directoryPath = __basedir + "/archivos/";
      fs.readdir(directoryPath, function (err, files) {
       if (err) {
         response.status(500).send({
@@ -52,7 +87,7 @@ class ProyectoController {
       files.forEach((file) => {
         fileInfos.push({
           name: file,
-          url: 'http://127.0.0.1:3333/api/v1/upload' + file,
+          url: 'http://localhost:3333/api/v1/upload' + file,
         });
       });
       console.log(fileInfos)
@@ -60,53 +95,66 @@ class ProyectoController {
       
     });
     
-  }
+  } */
 
   async down({
-    response,params
+    response,
+    params
   }) {
     const {
       name
     } = params;
     console.log(name)
     return await response.attachment(
-      Helpers.appRoot('archivos/licit/'+ name)
-      
-      )
+      Helpers.appRoot('archivos/licitaciones/' + name)
+    )
   }
 
-  async create({
+  async create_t({
     auth,
     request
   }) {
     const user = await auth.getUser();
+
     const {
-      nombre
+      nombre,
+      id_proyecto,
+      anio
     } = request.all();
     const proyecto = new Proyecto();
     proyecto.fill({
       nombre
     });
     await user.proyectos().save(proyecto);
+    const licit = request.file('file', {
+      types: ['zip'],
+      size: '5mb'
+    })
+    await licit.move(Helpers.appRoot('archivos/licitaciones'), {
+      name: id_proyecto + '-' + anio + `.zip`,
+      overwrite: true
+    })
+    if (!licit.moved()) {
+      return licit.error()
+    }
     return proyecto;
   }
 
   async upload({
     auth,
-    request,
-    response
+    request
   }) {
     const user = await auth.getUser();
-    const profilePic = request.file('file', {
+    const licit = request.file('file', {
       types: ['zip'],
-      size: '2mb'
+      size: '5mb'
     })
-    await profilePic.move(Helpers.appRoot('archivos/licit'), {
+    await licit.move(Helpers.appRoot('archivos'), {
       name: user.email + `.zip`,
       overwrite: true
     })
-    if (!profilePic.moved()) {
-      return profilePic.error()
+    if (!licit.moved()) {
+      return licit.error()
     }
     return 'File moved'
 
@@ -142,6 +190,52 @@ class ProyectoController {
     await proyecto.save();
     return proyecto;
   }
+  /* async create({
+    auth,
+    request
+  }) {
+    const user = await auth.getUser();
+    const {
+      nombre
+    } = request.all();
+    const proyecto = new Proyecto();
+    proyecto.fill({
+      nombre
+    });
+    await user.proyectos().save(proyecto);
+    return proyecto;
+  } */
+  async createeeee({
+    request
+  }) {
+
+    const {
+      nombre,
+    } = request.all();
+    const proyecto = new Proyecto();
+    proyecto.fill({
+      nombre
+    });
+    const licit = request.file('file', {
+      types: ['zip'],
+      size: '5mb'
+    })
+    await licit.move(Helpers.appRoot('archivos/licitaciones'), {
+      name: id_proyecto + '-' + anio + `.zip`,
+      overwrite: true
+    })
+    if (!licit.moved()) {
+      return licit.error()
+    }
+    return proyecto;
+  }
+  /* class ProyectoController {
+    async index({
+      auth
+    }) {
+      const user = await auth.getUser();
+      return await user.proyectos().fetch();
+    } */
 
 }
 

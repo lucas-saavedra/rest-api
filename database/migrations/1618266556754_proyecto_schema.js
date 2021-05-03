@@ -8,6 +8,7 @@ class ProyectoSchema extends Schema {
     this.create('proyectos', (table) => {
       table.increments()
       table.integer('user_id').unsigned().references('id').inTable('users')
+     // table.integer('postulante_id').unsigned().references('id').inTable('postulante')
       table.string('nombre', 80).notNullable()
       table.timestamps()
     })

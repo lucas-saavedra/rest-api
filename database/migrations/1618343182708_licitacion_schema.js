@@ -8,6 +8,7 @@ class LicitacionSchema extends Schema {
     this.create('licitacions', (table) => {
       table.increments()
       table.date('fecha').notNullable()
+      table.string('anio',4).notNullable()
       table.string('licitacion_n', 255).notNullable()
       table.string('titulo', 255).notNullable()
       table.string('llamada', 50).notNullable()
@@ -18,7 +19,7 @@ class LicitacionSchema extends Schema {
       table.text('fecha_apertura').notNullable()
       table.string('presup_oficial', 255).notNullable()
       table.string('precio_pliego', 255).notNullable()
-      table.text('bases_condiciones').notNullable()
+      table.text('bases_condiciones')
       table.integer('bases_condiciones_id')
       table.text('fecha_adj')
       table.text('norma_adj')
