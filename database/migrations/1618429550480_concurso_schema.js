@@ -9,7 +9,7 @@ class ConcursoSchema extends Schema {
       table.increments()
       table.date('fecha').notNullable()
       table.string('anio',4).notNullable()
-      table.string('concurso_n', 255).notNullable()
+      table.string('numero', 255).notNullable()
       table.text('titulo').notNullable()
       table.string('decreto_llamado', 255)
       table.date('fecha_adj')

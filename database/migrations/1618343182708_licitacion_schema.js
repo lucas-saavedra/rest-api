@@ -9,7 +9,7 @@ class LicitacionSchema extends Schema {
       table.increments()
       table.date('fecha').notNullable()
       table.string('anio',4).notNullable()
-      table.string('licitacion_n', 255).notNullable()
+      table.string('numero', 255).notNullable()
       table.string('titulo', 255).notNullable()
       table.string('llamada', 50).notNullable()
       table.enu('tipo', ['publica','privada']).notNullable()

@@ -8,7 +8,11 @@ class ConcursoController {
       //const concursos = await Database.from('adjudicatorios').where({ inscripcion_id: 1 })
       return concursos;
     } 
-
+    async get_adj_imp ({ params}) {
+      const {id} = params;
+      const adj = await Database.from('adjudicatorios').where({ inscripcion_id: id })
+      return adj;
+    }
     async show ({ params}) {
       const {id} = params;
       const concurso = await Concurso.find(id);

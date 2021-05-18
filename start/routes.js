@@ -16,7 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 
 'use strict'
- 
+
 const Route = use('Route')
 const Helpers = use('Helpers')
 Route.group(() => {
@@ -38,24 +38,29 @@ Route.group(() => {
   Route.delete('tareas/:id', 'TareaController.destroy').middleware('auth');
 
   // Get icitaciones
-  Route.get('licitaciones/', 'LicitacionController.index').middleware('guest');
+  //Route.get('licitaciones/', 'LicitacionController.index').middleware('guest');
+  Route.post('licitaciones/', 'LicitacionController.create').middleware('guest');
   Route.get('licitaciones/:estado', 'LicitacionController.estado').middleware('guest');
   Route.get('licitaciones/id/:id', 'LicitacionController.show').middleware('guest');
-//Get concursos
+  //Get concursos
   Route.get('concursos/', 'ConcursoController.index').middleware('guest');
   Route.get('concursos/:estado', 'ConcursoController.estado').middleware('guest');
   Route.get('concursos/id/:id', 'ConcursoController.show').middleware('guest');
+  Route.get('concursos/adj/:id', 'ConcursoController.get_adj_imp').middleware('guest');
 
 
 
-  Route.post('licitaciones/', 'LicitacionController.create');
 
-  
+
+
   Route.post('upload', 'PhotoController.upload').middleware('guest');
 
   Route.get('download/:name', 'ProyectoController.down').middleware('guest');
   Route.get('upload', 'ProyectoController.get_files').middleware('guest');
+
+  //Postulante
   Route.post('postulante', 'PostulanteController.create').middleware('guest');
+  Route.get('postulantes/:tipo', 'PostulanteController.tipo').middleware('guest');
 
 
 }).prefix('api/v1/');
